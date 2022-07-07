@@ -2,7 +2,6 @@
 const app = require('./app');
 const config = require('./config/config');
 const logger = require('./config/logger');
-
 let server;
 
 // for now, mongodb is unnecessary

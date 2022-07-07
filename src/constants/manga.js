@@ -1,0 +1,1 @@
+module.exports.STATUS = ['ongoing', 'completed', 'hiatus', 'cancelled']
