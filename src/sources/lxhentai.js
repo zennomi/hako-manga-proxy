@@ -2,7 +2,7 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const extractNumbers = require("extract-numbers");
 
-const { Source, Manga, Chapter } = require("../models");
+const { Source, Manga, Chapter, Section } = require("../models");
 // const { decodeHTMLEntity } = require("./parsers/lxhentai");
 
 const { proxyImage } = require("../utils/image");
@@ -16,7 +16,7 @@ const LxhSource = new Source({
 LxhSource.parseURL = (url) => {
     url = url.replace(/https:\/\//g, "").replace(/http:\/\//g, "").replace(/www\./g, "");
     url = url.split("?")[0];
-    if (/^lxhentai\.com\/truyen\/([a-z0-9]{1,9})(-[a-z0-9]{1,9}){1,6}(\/|$)/.test(url)) return { sourceName: LxhSource.name, mangaId: url.split("/")[2] };
+    if (/^lxhentai\.com\/truyen\/([a-z0-9]{1,9})(-[a-z0-9]{1,9}){0,6}(\/|$)/.test(url)) return { sourceName: LxhSource.name, mangaId: url.split("/")[2] };
     return "";
 }
 
@@ -113,6 +113,41 @@ LxhSource.getChapterDetails = async (mangaId, chapterId) => {
         pages: pages,
         longStrip: true
     };
+}
+
+LxhSource.getHomepageSections = async () => {
+    const { data: html } = await LxhSource.createRequest({
+        url: `/`,
+    })
+    const $ = cheerio.load(html);
+
+    const hot = new Section({
+        id: 'hot',
+        name: 'Truyện hot'
+    })
+
+    //New Updates
+    let hotItems = [];
+
+    for (let obj of $('.border.rounded-lg.border-gray-300.bg-white.manga-vertical').toArray()) {
+        let title = $('.p-2.w-full.truncate', obj).text().trim();
+        let subtitle = $('.latest-chapter.truncate', obj).text().trim();
+        let cover = $('.rounded-t-lg.cover', obj).css('background-image');
+        cover = /^url\((['"]?)(.*)\1\)$/.exec(cover);
+        cover = cover ? cover[2] : ""; // If matched, retrieve url, otherwise ""
+
+        let id = $('div:nth-child(1) > a', obj).attr('href').split("/")[2];
+        // if (!id || !subtitle) continue;
+        hotItems.push(new Manga({
+            id: id,
+            cover: !cover ? "https://i.imgur.com/GYUxEX8.png" : encodeURI(cover),
+            titles: [title, subtitle],
+        }))
+    }
+
+    hot.mangas = hotItems;
+
+    return [hot];
 }
 
 module.exports = LxhSource;

@@ -4,7 +4,6 @@ const { injectSource } = require('../../middlewares/source');
 
 const router = express.Router();
 
-
 router
     .route('/parser')
     .get(proxyController.parseURL)
@@ -12,6 +11,10 @@ router
 router
     .route('/:source')
     .get(proxyController.getSource)
+
+    router
+    .route('/:source/sections')
+    .get(injectSource, proxyController.getHomepageSections)
 
 router
     .route('/:source/:mangaId')

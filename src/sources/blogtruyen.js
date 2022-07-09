@@ -2,7 +2,7 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const extractNumbers = require("extract-numbers");
 
-const { Source, Manga, Chapter } = require("../models");
+const { Source, Manga, Chapter, Section } = require("../models");
 const { decodeHTMLEntity } = require("./parsers/blogtruyen");
 
 const { proxyImage } = require("../utils/image");
@@ -121,6 +121,38 @@ BltSource.getChapterDetails = async (mangaId, chapterId) => {
         pages: pages,
         longStrip: false
     };
+}
+
+BltSource.getHomepageSections = async () => {
+    const { data: html } = await BltSource.createRequest({
+        url: `/thumb`,
+    })
+    const $ = cheerio.load(html);
+
+    const newUpdated = new Section({
+        id: 'new_updated',
+        name: 'Truyện mới cập nhật'
+    })
+
+    //New Updates
+    let newUpdatedItems = [];
+
+    for (let obj of $('.row', '.list-mainpage .storyitem').toArray()) {
+        let title = $(`h3.title > a`, obj).attr('title');
+        let subtitle = $(`div:nth-child(2) > div:nth-child(4) > span:nth-child(1) > .color-red`, obj).text();
+        const cover = $(`div:nth-child(1) > a > img`, obj).attr('src');
+        let id = $(`div:nth-child(1) > a`, obj).attr('href');
+        // if (!id || !subtitle) continue;
+        newUpdatedItems.push(new Manga({
+            id: id.split("/")[1],
+            cover: !cover ? "https://i.imgur.com/GYUxEX8.png" : encodeURI(cover),
+            titles: [title, subtitle],
+        }))
+    }
+
+    newUpdated.mangas = newUpdatedItems;
+
+    return [newUpdated];
 }
 
 module.exports = BltSource;

@@ -28,6 +28,14 @@ const getChapter = catchAsync(async (req, res) => {
   res.send(chapterDetails);
 });
 
+const getHomepageSections = catchAsync(async (req, res) => {
+  const sections = await req.source.getHomepageSections();
+  if (!sections) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Sections not found');
+  }
+  res.send(sections);
+});
+
 const parseURL = catchAsync(async (req, res) => {
   let result = "";
   for (const source of Object.values(sources)) {
@@ -44,5 +52,6 @@ module.exports = {
   getSource,
   getManga,
   getChapter,
+  getHomepageSections,
   parseURL,
 };
