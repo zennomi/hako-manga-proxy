@@ -1056,6 +1056,11 @@
     "utils-merge" "1.0.1"
     "vary" "~1.1.2"
 
+"extract-numbers@^1.0.8":
+  "integrity" "sha512-8236/O3hPZXLqTcDKxtia8rdB4YAmHcxVuvRC4wcdZFe8WPt0GJgoDr1865VHDKROWd7JDLCQA3cqb01aOrMwA=="
+  "resolved" "https://registry.npmjs.org/extract-numbers/-/extract-numbers-1.0.8.tgz"
+  "version" "1.0.8"
+
 "faker@^5.1.0":
   "integrity" "sha512-wLTv2a28wjUyWkbnX7u/ABZBkUkIF2fCd73V6P2oFqEGEktDfzWx4UxrSqtPRw0xPRAcjeAOIiJWqZm3pP4u3g=="
   "resolved" "https://registry.npmjs.org/faker/-/faker-5.5.3.tgz"

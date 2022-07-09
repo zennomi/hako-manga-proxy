@@ -1,1 +1,1 @@
-module.exports.blogtruyen = require("./Blogtruyen");
+module.exports.blogtruyen = require("./blogtruyen");

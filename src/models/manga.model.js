@@ -1,12 +1,15 @@
 class Manga {
-    id;
-    titles;
-    desc;
+    id = "";
+    titles = [];
+    desc = "";
     authors = [];
     artists = [];
-    cover;
+    cover = "";
     tags = [];
     status = 0;
+    source;
+    shareURL = "";
+    chapters = {};
     constructor(object) {
         Object.assign(this, object);
     }

@@ -1,10 +1,14 @@
 class Source {
-    name;
-    baseURL;
-    icon;
+    name = "";
+    baseURL = "";
+    icon = "";
     sections = [];
     createRequest;
     getMangaDetails;
+    getSection;
+    getMangaShareURL;
+    getChapterShareURL;
+    getChapterDetails;
     constructor(object) {
         Object.assign(this, object);
     }
