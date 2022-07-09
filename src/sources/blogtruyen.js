@@ -14,6 +14,13 @@ const BltSource = new Source({
     sections: ['featured', 'hot', 'new_updated',]
 })
 
+BltSource.parseURL = (url) => {
+    url = url.replace(/https:\/\//g, "").replace(/http:\/\//g, "").replace(/www\./g, "");
+    url = url.split("?")[0];
+    if (/^blogtruyen\.vn\/[0-9]{1,6}(\/|$)/.test(url)) return { sourceName: BltSource.name, mangaId: url.split("/")[1] };
+    return "";
+}
+
 BltSource.getMangaShareURL = (mangaId) => `${BltSource.baseURL}/${mangaId}`;
 
 BltSource.getChapterShareURL = (mangaId, chapterId) => `${BltSource.baseURL}/${chapterId}/zennomi`;

@@ -9,6 +9,7 @@ class Source {
     getMangaShareURL;
     getChapterShareURL;
     getChapterDetails;
+    parseURL;
     constructor(object) {
         Object.assign(this, object);
     }

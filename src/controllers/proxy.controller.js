@@ -28,8 +28,21 @@ const getChapter = catchAsync(async (req, res) => {
   res.send(chapterDetails);
 });
 
+const parseURL = catchAsync(async (req, res) => {
+  let result = "";
+  for (const source of Object.values(sources)) {
+    result = source.parseURL(req.query.url);
+    if (result) break;
+  }
+  if (!result) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'URL is not valid');
+  }
+  res.send(result);
+});
+
 module.exports = {
-    getSource,
-    getManga,
-    getChapter,
+  getSource,
+  getManga,
+  getChapter,
+  parseURL,
 };
