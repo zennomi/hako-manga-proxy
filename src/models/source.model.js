@@ -2,10 +2,9 @@ class Source {
     name = "";
     baseURL = "";
     icon = "";
-    sections = [];
     createRequest;
     getMangaDetails;
-    getSection;
+    getHomepageSections;
     getMangaShareURL;
     getChapterShareURL;
     getChapterDetails;

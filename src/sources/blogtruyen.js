@@ -10,8 +10,7 @@ const { proxyImage } = require("../utils/image");
 const BltSource = new Source({
     name: 'blogtruyen',
     baseURL: 'https://blogtruyen.vn',
-    icon: 'https://pbs.twimg.com/profile_images/1132494241/favicon_400x400.png',
-    sections: ['featured', 'hot', 'new_updated',]
+    icon: 'https://pbs.twimg.com/profile_images/1132494241/favicon_400x400.png'
 })
 
 BltSource.parseURL = (url) => {
@@ -55,7 +54,6 @@ BltSource.getMangaDetails = async (mangaId) => {
             case 'Thể loại:':
                 for (const t of $('.category > a', test).toArray()) {
                     const genre = $(t).text().trim()
-                    const id = $(t).attr('href') ?? genre
                     tags.push(genre.toLowerCase());
                 }
                 status = $('.color-red', $(test).next()).text().toLowerCase().includes("đang") ? 0 : 1;
