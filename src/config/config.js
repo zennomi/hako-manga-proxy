@@ -9,6 +9,10 @@ const envVarsSchema = Joi.object()
     NODE_ENV: Joi.string().valid('production', 'development', 'test').required(),
     PORT: Joi.number().default(3000),
     // MONGODB_URL: Joi.string().required().description('Mongo DB url'),
+    REDIS_PORT: Joi.number().default(6379),
+    REDIS_HOST: Joi.string().default('127.0.0.1'),
+    REDIS_PASSWORD: Joi.string(),
+    REDIS_ENDPOINT_URI: Joi.string().default('127.0.0.1:6379').description('Redis url'),
   })
   .unknown();
 
@@ -28,5 +32,11 @@ module.exports = {
   //     useNewUrlParser: true,
   //     useUnifiedTopology: true,
   //   },
-  // }
+  // },
+  redis: {
+    endpointUri: envVars.REDIS_ENDPOINT_URI
+      || `${envVars.REDIS_HOST}:${envVars.REDIS_PORT}`
+    ,
+    password: envVars.REDIS_PASSWORD || undefined
+  },
 };

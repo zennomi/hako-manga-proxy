@@ -2,16 +2,18 @@
 const app = require('./app');
 const config = require('./config/config');
 const logger = require('./config/logger');
+const redisClient = require('./config/redis');
 let server;
 
-// for now, mongodb is unnecessary
-// mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
-//   logger.info('Connected to MongoDB');
-// });
-
-server = app.listen(config.port, () => {
-  logger.info(`Listening to port ${config.port}`);
-});
+const startSever = async () => {
+  // await mongoose.connect(config.mongoose.url, config.mongoose.options);
+  // logger.info('Connected to MongoDB');
+  await redisClient.connect();
+  logger.info('Connected to Redis');
+  server = app.listen(config.port, () => {
+    logger.info(`Listening to port ${config.port}`);
+  });
+};
 
 const exitHandler = () => {
   if (server) {
@@ -38,3 +40,5 @@ process.on('SIGTERM', () => {
     server.close();
   }
 });
+
+startSever();

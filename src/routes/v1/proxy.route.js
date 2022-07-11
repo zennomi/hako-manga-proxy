@@ -1,6 +1,7 @@
 const express = require('express');
 const { proxyController } = require('../../controllers');
 const { injectSource } = require('../../middlewares/source');
+const { setCache } = require('../../middlewares/cache');
 
 const router = express.Router();
 
@@ -12,16 +13,16 @@ router
     .route('/:source')
     .get(proxyController.getSource)
 
-    router
+router
     .route('/:source/sections')
-    .get(injectSource, proxyController.getHomepageSections)
+    .get(injectSource, setCache(7 * 24 * 3600), proxyController.getHomepageSections)
 
 router
     .route('/:source/:mangaId')
-    .get(injectSource, proxyController.getManga)
+    .get(injectSource, setCache(3600), proxyController.getManga)
 
 router
     .route('/:source/:mangaId/:chapterId')
-    .get(injectSource, proxyController.getChapter)
+    .get(injectSource, setCache(3600), proxyController.getChapter)
 
 module.exports = router;

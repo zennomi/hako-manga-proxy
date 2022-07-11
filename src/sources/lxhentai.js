@@ -1,6 +1,8 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 const extractNumbers = require("extract-numbers");
+const { parse } = require("date-fns");
+const { vi } = require("date-fns/locale")
 
 const { Source, Manga, Chapter, Section } = require("../models");
 // const { decodeHTMLEntity } = require("./parsers/lxhentai");
@@ -68,15 +70,18 @@ LxhSource.getMangaDetails = async (mangaId) => {
     }
 
     const chapters = {};
+    let nullChapterNumberCount = 0;
     for (const obj of $("a", "ul.overflow-y-auto.overflow-x-hidden").toArray()) {
         let title = $('.text-ellipsis', obj).text().trim();
         let id = $(obj).attr('href').split("/")[3];
-
+        const chapterNumbers = extractNumbers(title);
+        const chapterNumber = chapterNumbers && chapterNumbers.length > 0 ? chapterNumbers[0] : `0.${nullChapterNumberCount++}`;
         chapters[id] = (new Chapter({
             id: id,
             title,
-            number: extractNumbers(title),
-            time: $('.timeago.ml-2.whitespace-nowrap', obj).attr('datetime')
+            number: chapterNumber,
+            time: parse($('.timeago.ml-2.whitespace-nowrap', obj).attr('datetime'), 'yyyy-MM-dd HH:mm:ss', new Date(), { options: { locale: vi } }),
+            shareURL: LxhSource.getChapterShareURL(mangaId, id)
         }));
     }
 
@@ -123,7 +128,7 @@ LxhSource.getHomepageSections = async () => {
 
     const hot = new Section({
         id: 'hot',
-        name: 'Truyện hot'
+        title: 'Truyện hot'
     })
 
     //New Updates

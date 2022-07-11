@@ -1,13 +1,15 @@
+const redisClient = require("../config/redis");
+
 class Source {
     name = "";
     baseURL = "";
     icon = "";
     createRequest;
     getMangaDetails;
+    getChapterDetails;
     getHomepageSections;
     getMangaShareURL;
     getChapterShareURL;
-    getChapterDetails;
     parseURL;
     constructor(object) {
         Object.assign(this, object);

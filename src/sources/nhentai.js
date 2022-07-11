@@ -1,9 +1,7 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
-const extractNumbers = require("extract-numbers");
 
-const { Source, Manga, Chapter, Section } = require("../models");
-const { decodeHTMLEntity } = require("./parsers/blogtruyen");
+const { Source, Manga, Section } = require("../models");
 
 const { proxyImage } = require("../utils/image");
 
@@ -93,7 +91,7 @@ NhentaiSource.getHomepageSections = async () => {
 
     const hot = new Section({
         id: 'hot',
-        name: 'Cực lứng'
+        title: 'Cực lứng'
     })
 
     //New Updates

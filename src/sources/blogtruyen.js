@@ -39,7 +39,7 @@ BltSource.getMangaDetails = async (mangaId) => {
     const $ = cheerio.load(html);
     let author = '';
     let status = 1;
-    let desc = $('.content').text();
+    let desc = $('.content').text().trim();
     let tags = [];
     let titles = [decodeHTMLEntity($('.entry-title > a').text().trim())];
 
@@ -131,7 +131,7 @@ BltSource.getHomepageSections = async () => {
 
     const newUpdated = new Section({
         id: 'new_updated',
-        name: 'Truyện mới cập nhật'
+        title: 'Truyện mới cập nhật'
     })
 
     //New Updates
