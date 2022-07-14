@@ -152,7 +152,7 @@ LxhSource.getHomepageSections = async () => {
 
     hot.mangas = hotItems;
 
-    return [hot];
+    return { [hot.id]: hot };
 }
 
 module.exports = LxhSource;

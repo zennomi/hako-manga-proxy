@@ -152,7 +152,7 @@ BltSource.getHomepageSections = async () => {
 
     newUpdated.mangas = newUpdatedItems;
 
-    return [newUpdated];
+    return { [newUpdated.id]: newUpdated };
 }
 
 module.exports = BltSource;

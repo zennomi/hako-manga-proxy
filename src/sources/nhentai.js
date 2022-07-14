@@ -8,7 +8,7 @@ const { proxyImage } = require("../utils/image");
 const NhentaiSource = new Source({
     name: 'nhentai',
     baseURL: 'https://nhentai.net',
-    icon: 'https://static.nhentai.net/img/logo.090da3be7b51.svg'
+    icon: 'https://ih1.redbubble.net/image.2603652676.7053/flat,128x128,075,t-pad,128x128,f8f8f8.jpg'
 })
 
 const CORS_URL = "https://cubari.moe";
@@ -111,7 +111,7 @@ NhentaiSource.getHomepageSections = async () => {
 
     hot.mangas = hotItems;
 
-    return [hot];
+    return { [hot.id]: hot };
 }
 
 module.exports = NhentaiSource;

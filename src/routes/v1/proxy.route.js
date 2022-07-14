@@ -15,7 +15,7 @@ router
 
 router
     .route('/:source/sections')
-    .get(injectSource, setCache(7 * 24 * 3600), proxyController.getHomepageSections)
+    .get(injectSource, setCache(3600), proxyController.getHomepageSections)
 
 router
     .route('/:source/:mangaId')
